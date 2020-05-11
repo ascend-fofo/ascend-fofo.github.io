@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>标签 ~ 关于我和她的事</title>
+  <title>03微服务架构及项目架构设计 ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -44,7 +44,7 @@
     });
     daovoice('update');
   </script>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -123,6 +123,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 五月 11日 2020, 10:01 上午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    332 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -133,22 +168,111 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/love/" style="font-size: 15px; color: #bbe">love</a>
-</div>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="微服务架构及项目架构设计"><a href="#微服务架构及项目架构设计" class="headerlink" title="微服务架构及项目架构设计"></a>微服务架构及项目架构设计</h2><h3 id="在IT行业中有很多的职位"><a href="#在IT行业中有很多的职位" class="headerlink" title="在IT行业中有很多的职位"></a>在IT行业中有很多的职位</h3><blockquote>
+<p><strong><em>产品</em></strong></p>
+<p>要设计产品文档，并且要和各个开发过需求</p>
+<p><strong><em>架构</em></strong></p>
+<p>选择技术方向，语言，web应用，框架，要用到什么技术，会出现哪些问题？比方说性能问题并且要解决问题</p>
+<p>他也需要些代码，但是往往是处理一些难度比较大的代码</p>
+<p><strong><em>项目经理</em></strong></p>
+<p>更多的是偏向于管理而会因此弱化技术，但是会非常有利于你的终身发展</p>
+<p><strong><em>普通开发</em></strong></p>
+<blockquote>
+<p><strong><em>前端开发</em></strong></p>
+<p><strong><em>后端开发</em></strong></p>
+<p>（这里职位高低不分顺序）</p>
+</blockquote>
+<p><strong><em>测试</em></strong></p>
+<p><strong><em>运维</em></strong></p>
+</blockquote>
+<h3 id="集群服务器"><a href="#集群服务器" class="headerlink" title="集群服务器"></a>集群服务器</h3><blockquote>
+<p>若干个服务器运行同一个项目</p>
+<p>解决了<strong><em>高可用</em></strong></p>
+</blockquote>
+<p>###分布式微服务框架</p>
+<blockquote>
+<p>将之前的一个项目，按照业务拆分为一个个小项目，并且这些小项目之间有相互的调用</p>
+<p>解决了<strong><em>高并发</em></strong></p>
+</blockquote>
+<p>我需要有<strong><em>消费者</em></strong>和<strong><em>生产者</em></strong>，然后我的消费者与生产者同时要知道这个<strong><em>注册中心</em></strong>在哪里，然后进行注册</p>
+<p>那么生产者需要在<strong><em>注册中心</em></strong>上暴露自己的接口，消费者需要在注册中心上能够发现这个接口从而进行消费</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div id="vcomments" style="width: 90%; margin: 0 auto;"></div>
+  <script defer src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+  <script>
+    var notify = 'false' === true;
+    var verify = 'false' === true;
+    var oldLoad = window.onload;
+    window.onload = function () {
+      new Valine({
+        el: '#vcomments',
+        notify: notify,
+        verify: verify,
+        app_id: "AwHMHsWD84HCneUlPvBR9ivb-gzGzoHsz",
+        app_key: "XEA3AdfEE5lN8EJi57fb60qq",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "retro",
+        meta: ['nick', 'mail', 'link'],
+        pageSize: "10",
+      });
+      oldLoad && oldLoad();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -227,6 +351,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -267,7 +396,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签&nbsp;",
+        "03微服务架构及项目架构设计&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

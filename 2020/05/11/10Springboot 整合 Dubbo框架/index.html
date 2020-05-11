@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>糖糖小可爱 ~ 关于我和她的事</title>
+  <title>10Springboot 整合 Dubbo框架 ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -127,7 +127,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期一, 一月 13日 2020, 9:12 晚上
+                  星期一, 五月 11日 2020, 10:02 上午
                 </p>
               
 
@@ -136,7 +136,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    6 字
+                    631 字
                   </span>&nbsp;
                 
 
@@ -144,7 +144,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      2 分钟
                   </span>&nbsp;
                 
 
@@ -177,14 +177,102 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>###DW  等我!</p>
-<iframe src="//player.bilibili.com/player.html?aid=76259905&cid=130444896&page=1" 
-width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+            <h2 id="Springboot-整合-Dubbo框架"><a href="#Springboot-整合-Dubbo框架" class="headerlink" title="Springboot 整合 Dubbo框架"></a>Springboot 整合 Dubbo框架</h2><p><strong>项目搭建</strong></p>
+<blockquote>
+<p><strong>生产者：provider</strong></p>
+<p><strong>责任：提供数据</strong></p>
+<p><strong>注册中心 zookeeper</strong></p>
+<p><strong>责任：提供地址让生产者与消费者进行注册</strong></p>
+<p><strong>消费者：consumer</strong></p>
+<p><strong>责任：调用接口消费数据</strong></p>
+</blockquote>
+<h3 id="开始搭建项目"><a href="#开始搭建项目" class="headerlink" title="开始搭建项目"></a>开始搭建项目</h3><p><strong>步骤</strong></p>
+<blockquote>
+<p><strong>①搭建一个空白的项目 springboot或者maven都可以</strong></p>
+<p><strong>②分别搭建provider与consumer项目</strong></p>
+<p><strong>③java -jar 命令启动dubbo-admin.jar</strong></p>
+<blockquote>
+<p><strong>dubbo-admin是阿里开发的一个框架，给访问zookeeper提供了可视化页面</strong></p>
+<p><strong>也提供了一些功能如负载均衡，熔断等等</strong></p>
+</blockquote>
+<p><strong>④确认可以访问dubbo-admin</strong></p>
+<p><strong>⑤分别让provider与consumer连接dubbo-admin</strong></p>
+<p><strong>步骤</strong></p>
+<blockquote>
+<p><strong>provider</strong></p>
+<p><strong>①依赖</strong></p>
+<pre><code class="xml">&lt;!-- dubbo-spring-boot-starter 开始 --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.alibaba.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;dubbo-spring-boot-starter&lt;/artifactId&gt;
+  &lt;version&gt;0.1.0&lt;/version&gt;
+&lt;/dependency&gt;
 
+&lt;!-- dubbo-spring-boot-starter 结束 --&gt;
+&lt;!-- zkclient 依赖提供了连接zookeeper的能力--&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.101tec&lt;/groupId&gt;
+  &lt;artifactId&gt;zkclient&lt;/artifactId&gt;
+  &lt;version&gt;0.10&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- zkclient 依赖提供了连接zookeeper的能力--&gt;</code></pre>
+<p><strong>②配置</strong></p>
+<pre><code class="properties">dubbo.application.name=dubbo-provider
+server.port=9003
+dubbo.registry.address=zookeeper://127.0.0.1:2181
+dubbo.scan.base-packages=com.kgc.cn.service
+dubbo.protocol.port=-1</code></pre>
+</blockquote>
+<p><strong>至此provider配置完成</strong></p>
+<p><strong>为了使后面的consumer与provider项目不产生直接连接所以需要一个中间项目common</strong></p>
+<p><strong>创建中间项目common项目</strong></p>
+<blockquote>
+<p><strong>创建完中间项目后在provider项目中添加common项目的依赖</strong></p>
+<pre><code>&lt;groupId&gt;com.kgc.cn&lt;/groupId&gt;
+&lt;artifactId&gt;common&lt;/artifactId&gt;
+&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</code></pre><p><strong>最后把service接口放到common项目中</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong>最后再创建一个consumer项目然后在项目</strong></p>
+<p><strong>步骤</strong></p>
+<blockquote>
+<p><strong>①添加common项目依赖</strong></p>
+<pre><code class="xml">&lt;groupId&gt;com.kgc.cn&lt;/groupId&gt;
+&lt;artifactId&gt;common&lt;/artifactId&gt;
+&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</code></pre>
+<p><strong>②添加zk与dubbo依赖</strong></p>
+<pre><code class="xml">&lt;!-- dubbo-spring-boot-starter 开始 --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.alibaba.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;dubbo-spring-boot-starter&lt;/artifactId&gt;
+  &lt;version&gt;0.1.0&lt;/version&gt;
+&lt;/dependency&gt;
 
-
-
-<p>嘻嘻嘻</p>
+&lt;!-- dubbo-spring-boot-starter 结束 --&gt;
+&lt;!-- zkclient 依赖提供了连接zookeeper的能力--&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.101tec&lt;/groupId&gt;
+  &lt;artifactId&gt;zkclient&lt;/artifactId&gt;
+  &lt;version&gt;0.10&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</blockquote>
+</blockquote>
+<h3 id="dubbo-admin功能部分"><a href="#dubbo-admin功能部分" class="headerlink" title="dubbo-admin功能部分"></a>dubbo-admin功能部分</h3><p><strong>禁止</strong></p>
+<blockquote>
+<p><strong>禁止消费者访问生产者</strong></p>
+</blockquote>
+<p><strong>屏蔽和容错</strong></p>
+<blockquote>
+<p><strong>不会访问生产者，同时也不会报错</strong></p>
+<p><strong>注意：项目中添加容错请添加fastjson依赖</strong></p>
+<pre><code class="xml">&lt;dependency&gt;
+  &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+  &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+  &lt;version&gt;1.2.58&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+<p>ngrok http 8080</p>
+</blockquote>
 
             <hr>
           </div>
@@ -192,13 +280,6 @@ width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacin
           <div>
             <p>
             
-            
-              <span>
-                <i class="iconfont icon-tag"></i>
-                
-                  <a class="hover-with-bg" href="/tags/love">love</a>
-                
-              </span>
             
             </p>
             
@@ -383,7 +464,7 @@ width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacin
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "糖糖小可爱&nbsp;",
+        "10Springboot 整合 Dubbo框架&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

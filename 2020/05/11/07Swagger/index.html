@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>标签 ~ 关于我和她的事</title>
+  <title>07Swagger ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -44,7 +44,7 @@
     });
     daovoice('update');
   </script>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -123,6 +123,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 五月 11日 2020, 10:01 上午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    279 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -133,22 +168,128 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/love/" style="font-size: 15px; color: #bbe">love</a>
-</div>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h2><h3 id="接口文档"><a href="#接口文档" class="headerlink" title="接口文档"></a>接口文档</h3><blockquote>
+<p><strong>接口文档是给谁看的？</strong></p>
+<p>给前端开发看的</p>
+<p><strong>为什么要写接口文档？</strong></p>
+<p>就是可以让前后端进行对接</p>
+</blockquote>
+<p><strong>课外</strong></p>
+<pre><code class="java">@GetMapping(value = &quot;/getGoods/{str}&quot;)
+public Goods getGoods(@PathVariable(name = &quot;str&quot;) String str)
+
+@Validated 
+</code></pre>
+<p><strong>步骤</strong></p>
+<blockquote>
+<p>①<strong>依赖</strong></p>
+<pre><code class="xml">&lt;!--swagger 开始--&gt;
+&lt;dependency&gt;
+   &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+   &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;
+   &lt;version&gt;2.9.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!--swagger 结束--&gt;
+&lt;!-- swaggerui开始 --&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;com.github.xiaoymin&lt;/groupId&gt;
+           &lt;artifactId&gt;swagger-bootstrap-ui&lt;/artifactId&gt;
+           &lt;version&gt;1.9.3&lt;/version&gt;
+       &lt;/dependency&gt;
+       &lt;!-- swaggerui结束 这里相当于给了一层类似于bootstrap的ui界面--&gt;</code></pre>
+<p><strong>②配置</strong></p>
+<pre><code class="java">@Configuration
+@EnableSwagger2
+@EnableSwaggerBootstrapUI
+public class SwaggerConfiguration {
+}</code></pre>
+</blockquote>
+<p><strong>swagger-bootstrap-ui的访问地址</strong></p>
+<p>{host}:{port}doc.html</p>
+<p>swagger中常用注解**</p>
+<pre><code class="java">@Api(tags = &quot;实时查询客户各种操作(例如登录，拓客等)的流水日志&quot;) //也可以用来表示版本号
+@ApiOperation(&quot;获取商品列表&quot;) //描述接口的功能
+
+@ApiModel(value = &quot;商品实体类&quot;) //描述实体类的
+@ApiModelProperty(value=&quot;描述字段&quot; ，required=true) //这里注意这里的required默认是false
+</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div id="vcomments" style="width: 90%; margin: 0 auto;"></div>
+  <script defer src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+  <script>
+    var notify = 'false' === true;
+    var verify = 'false' === true;
+    var oldLoad = window.onload;
+    window.onload = function () {
+      new Valine({
+        el: '#vcomments',
+        notify: notify,
+        verify: verify,
+        app_id: "AwHMHsWD84HCneUlPvBR9ivb-gzGzoHsz",
+        app_key: "XEA3AdfEE5lN8EJi57fb60qq",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "retro",
+        meta: ['nick', 'mail', 'link'],
+        pageSize: "10",
+      });
+      oldLoad && oldLoad();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -227,6 +368,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -267,7 +413,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签&nbsp;",
+        "07Swagger&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

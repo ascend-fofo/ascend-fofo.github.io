@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>标签 ~ 关于我和她的事</title>
+  <title>11消息中间件 ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -44,7 +44,7 @@
     });
     daovoice('update');
   </script>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -123,6 +123,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 五月 11日 2020, 10:02 上午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    289 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -133,22 +168,134 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/love/" style="font-size: 15px; color: #bbe">love</a>
-</div>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="消息中间件"><a href="#消息中间件" class="headerlink" title="消息中间件"></a>消息中间件</h1><h2 id="为什么要用消息中间件？"><a href="#为什么要用消息中间件？" class="headerlink" title="为什么要用消息中间件？"></a>为什么要用消息中间件？</h2><blockquote>
+<p><strong>实际上提到了为什么，那么是不是说就要说一下消息中间件的优势</strong></p>
+<p><strong>他的优势很简单就是异步处理，流量削峰，但是适用于不关心返回结果的方法</strong></p>
+</blockquote>
+<h2 id="ActiveMQ"><a href="#ActiveMQ" class="headerlink" title="ActiveMQ"></a>ActiveMQ</h2><p>这是消息中间件中的一种还有RabbitMQ ，kafka</p>
+<h2 id="连接ActiveMQ"><a href="#连接ActiveMQ" class="headerlink" title="连接ActiveMQ"></a>连接ActiveMQ</h2><p>##步骤：</p>
+<blockquote>
+<p><strong>① 依赖</strong></p>
+<pre><code class="xml">&lt;!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-activemq --&gt;
+&lt;dependency&gt;
+   &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+   &lt;artifactId&gt;spring-boot-starter-activemq&lt;/artifactId&gt;
+   &lt;version&gt;1.5.9.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+<p><strong>②配置</strong></p>
+<pre><code class="properties">#链接地址
+spring.activemq.broker-url=tcp://127.0.0.1:61616
+#默认情况下activemq提供的是queue模式，如果要使用topic 则选择true
+spring.jms.pub-sub-domain=false
+
+spring.activemq.user=admin
+spring.activemq.password=admin
+#信任所有的包
+spring.activemq.packages.trust-all=true</code></pre>
+<p><strong>③使用 2</strong></p>
+<pre><code class="java">//工具类
+@Component
+public class ActiveMqUtils {
+   @Autowired
+   private JmsMessagingTemplate jmsMessagingTemplate;
+
+   public void sendQueueMsg(String name, Object msg) {
+       Destination destination = new ActiveMQQueue(name);
+//        Destination destinations = new ActiveMQTopic(name);
+       jmsMessagingTemplate.convertAndSend(destination, msg);
+   }
+}</code></pre>
+<pre><code class="java">//发送与接收点对点消息
+@Autowired
+private ActiveMqUtils activeMqUtils;
+
+@GetMapping(value = &quot;/sendMsg&quot;)
+public void sendMsg(@RequestParam String msg) {
+   activeMqUtils.sendQueueMsg(&quot;test&quot;,&quot;test&quot;);
+}
+
+@JmsListener(destination = &quot;test&quot;)
+public String getMsg(String msg){
+   return msg;
+}</code></pre>
+</blockquote>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div id="vcomments" style="width: 90%; margin: 0 auto;"></div>
+  <script defer src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+  <script>
+    var notify = 'false' === true;
+    var verify = 'false' === true;
+    var oldLoad = window.onload;
+    window.onload = function () {
+      new Valine({
+        el: '#vcomments',
+        notify: notify,
+        verify: verify,
+        app_id: "AwHMHsWD84HCneUlPvBR9ivb-gzGzoHsz",
+        app_key: "XEA3AdfEE5lN8EJi57fb60qq",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "retro",
+        meta: ['nick', 'mail', 'link'],
+        pageSize: "10",
+      });
+      oldLoad && oldLoad();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -227,6 +374,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -267,7 +419,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签&nbsp;",
+        "11消息中间件&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

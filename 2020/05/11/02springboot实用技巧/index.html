@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>标签 ~ 关于我和她的事</title>
+  <title>02springboot实用技巧 ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -44,7 +44,7 @@
     });
     daovoice('update');
   </script>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -123,6 +123,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 五月 11日 2020, 10:01 上午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    441 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -133,22 +168,113 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/love/" style="font-size: 15px; color: #bbe">love</a>
-</div>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="springboot实用技巧"><a href="#springboot实用技巧" class="headerlink" title="springboot实用技巧"></a>springboot实用技巧</h2><h4 id="从配置文件中获取配置"><a href="#从配置文件中获取配置" class="headerlink" title="从配置文件中获取配置"></a>从配置文件中获取配置</h4><p>疑问为什么要从配置文件中获取配置？</p>
+<p>1 可以当做常量来使用</p>
+<p>如何从配置文件中获取配置？</p>
+<blockquote>
+<p>自己查idea格式化快捷键</p>
+</blockquote>
+<p>坑：</p>
+<p>1中文乱码</p>
+<p>2不要将属性写为user.name 这样会获取你电脑的用户名</p>
+<h4 id="获取方式一"><a href="#获取方式一" class="headerlink" title="获取方式一"></a>获取方式一</h4><pre><code class="java">value(&quot;${}&quot;)
+//细节 注意配置中的字符串会默认加上&quot;&quot;符号 所以不需要加</code></pre>
+<p><strong><em>课外 # 与$符号的区别？</em></strong></p>
+<p>做完练习后我们想一下 这个有什么缺点？</p>
+<p>有点麻烦，如果要获取若干配置的话，那么就需要一个个取值</p>
+<h4 id="获取方式二"><a href="#获取方式二" class="headerlink" title="获取方式二"></a>获取方式二</h4><pre><code class="java">@ConfigurationProperties(prefix = &quot;这里写头&quot;)
+@componet //一定要记得加</code></pre>
+<p>这里返回空json，推荐安装谷歌浏览器json插件（json-handle）</p>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><p>可以大范围多字段一次性获取多个属性</p>
+<h3 id="使用配置文件创建多环境以及环境的选择"><a href="#使用配置文件创建多环境以及环境的选择" class="headerlink" title="使用配置文件创建多环境以及环境的选择"></a>使用配置文件创建多环境以及环境的选择</h3><p>dev 表示开发环境</p>
+<p>sit 表示测试环境</p>
+<p>prd 表示正式线上环境</p>
+<h4 id="痛点，不同的环境下的数据库链接不同，用户名，密码等等配置都有可能不同"><a href="#痛点，不同的环境下的数据库链接不同，用户名，密码等等配置都有可能不同" class="headerlink" title="痛点，不同的环境下的数据库链接不同，用户名，密码等等配置都有可能不同"></a>痛点，不同的环境下的数据库链接不同，用户名，密码等等配置都有可能不同</h4><h4 id="如果换个环境就去该配置文件的话太麻烦了"><a href="#如果换个环境就去该配置文件的话太麻烦了" class="headerlink" title="如果换个环境就去该配置文件的话太麻烦了"></a>如果换个环境就去该配置文件的话太麻烦了</h4><p>凡是没有使用多环境的公司，都是垃圾</p>
+<h3 id="所以产生了多环境的配置文件与选择配置文件"><a href="#所以产生了多环境的配置文件与选择配置文件" class="headerlink" title="所以产生了多环境的配置文件与选择配置文件"></a>所以产生了多环境的配置文件与选择配置文件</h3><p>步骤：</p>
+<blockquote>
+<p>①创建多环境配置规范</p>
+<p>例如：application-dev.properties</p>
+<p>要在原先的配置环境下新加一个配置文件，然后在application后加-符号加上你需要的环境名即可</p>
+<p>②选择某个环境</p>
+<pre><code class="java">spring.profiles.active=dev  //后面这里写的是环境名（也就是-后面的字符）</code></pre>
+</blockquote>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div id="vcomments" style="width: 90%; margin: 0 auto;"></div>
+  <script defer src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+  <script>
+    var notify = 'false' === true;
+    var verify = 'false' === true;
+    var oldLoad = window.onload;
+    window.onload = function () {
+      new Valine({
+        el: '#vcomments',
+        notify: notify,
+        verify: verify,
+        app_id: "AwHMHsWD84HCneUlPvBR9ivb-gzGzoHsz",
+        app_key: "XEA3AdfEE5lN8EJi57fb60qq",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "retro",
+        meta: ['nick', 'mail', 'link'],
+        pageSize: "10",
+      });
+      oldLoad && oldLoad();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -227,6 +353,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -267,7 +398,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签&nbsp;",
+        "02springboot实用技巧&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

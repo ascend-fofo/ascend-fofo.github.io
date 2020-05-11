@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>糖糖小可爱 ~ 关于我和她的事</title>
+  <title>06使用token进行登录以及自定义注解的使用 ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -127,7 +127,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期一, 一月 13日 2020, 9:12 晚上
+                  星期一, 五月 11日 2020, 10:01 上午
                 </p>
               
 
@@ -136,7 +136,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    6 字
+                    602 字
                   </span>&nbsp;
                 
 
@@ -144,7 +144,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      3 分钟
                   </span>&nbsp;
                 
 
@@ -177,14 +177,184 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>###DW  等我!</p>
-<iframe src="//player.bilibili.com/player.html?aid=76259905&cid=130444896&page=1" 
-width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+            <h3 id="使用token进行登录以及自定义注解的使用"><a href="#使用token进行登录以及自定义注解的使用" class="headerlink" title="使用token进行登录以及自定义注解的使用"></a>使用token进行登录以及自定义注解的使用</h3><pre><code class="java">//用于判断是否登录注解
+@Target(ElementType.METHOD)  //代表我这个自定义注解要放在方法上
+@Retention(RetentionPolicy.RUNTIME) //运行时有效
+public @interface LoginRequired {
+}</code></pre>
+<pre><code class="java">//用于获取用户信息注解
+@Target(ElementType.PARAMETER) //代表我这个自定义注解要放在形参中
+@Retention(RetentionPolicy.RUNTIME) //运行时有效
+public @interface CurrentUser {
+}</code></pre>
+<p><strong>添加LoginReqComplete实现具体逻辑</strong></p>
+<pre><code class="java">public class LoginReqComplete implements HandlerInterceptor {
+    @Autowired
+    private RedisUtils redisUtils;
+//这里表示在进入方法之前运行逻辑
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //如果方法上没有添加@LoginRequired注解就不需要登录可以访问的接口 也就意味着不要进入这个方法中来
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        Method method = handlerMethod.getMethod();
+        //判断接口是否需要登录
+        LoginRequired methodAnnotation = method.getAnnotation(LoginRequired.class);
+        if (null != methodAnnotation) {
+            String token = request.getHeader(&quot;token&quot;);
+            if (!StringUtils.isEmpty(token)) {
+                String userToken = (String) redisUtils.get(token);
+                if (StringUtils.isEmpty(userToken)) {
+                    throw new RuntimeException(&quot;login error&quot;);
+                } else {
+                    LoginUser loginUser = JSONObject.parseObject(userToken, LoginUser.class);
+                    request.setAttribute(&quot;loginUser&quot;, loginUser);
+                }
+            }
+            return true;
+        }
+        //这里为什么改为true下次就知道了
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+
+    }
+}</code></pre>
+<p><strong>描述currentuser决定内容</strong></p>
+<pre><code class="java">public class CurrentComplete implements HandlerMethodArgumentResolver {
+    @Override
+    /**
+     * 对形参支持的规定
+     */
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.getParameterType().isAssignableFrom(LoginUser.class) &amp;&amp; parameter.hasParameterAnnotation(CurrentUser.class);
+        //return false;
+    }
+
+    @Override
+    /**
+     * 决定内容的方法 谁会来调用我？
+     */
+    public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest webRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
+        LoginUser loginUser = (LoginUser) webRequest.getAttribute(&quot;loginUser&quot;, RequestAttributes.SCOPE_REQUEST);
+        if (!ObjectUtils.isEmpty(loginUser)) {
+            return loginUser;
+        }
+        return null;
+    }
+}</code></pre>
+<p>配置webcofig**</p>
+<pre><code class="java">@Configuration
+public class WebConfiguration implements WebMvcConfigurer {
+  //注入自己写的具体实现类的bean
+    @Bean
+    public LoginReqComplete loginReqComplete(){
+        return new LoginReqComplete();
+    }
 
 
 
+    @Override
+    public void configurePathMatch(PathMatchConfigurer pathMatchConfigurer) {
 
-<p>嘻嘻嘻</p>
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer contentNegotiationConfigurer) {
+
+    }
+
+    @Override
+    public void configureAsyncSupport(AsyncSupportConfigurer asyncSupportConfigurer) {
+
+    }
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer defaultServletHandlerConfigurer) {
+
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry formatterRegistry) {
+
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry interceptorRegistry) {
+      //这里添加一个只要以/开头的请求都会进入loginReqComplete()方法中也就是上面的bean那么最终会进入
+      //我们写的LoginReqComplete类的逻辑中
+        interceptorRegistry.addInterceptor(loginReqComplete()).addPathPatterns(&quot;/**&quot;);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
+
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry corsRegistry) {
+
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry viewControllerRegistry) {
+
+    }
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry viewResolverRegistry) {
+
+    }
+
+    @Override
+    public void addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt; list) {
+                    list.add(currentComplete());
+    }
+
+    @Override
+    public void addReturnValueHandlers(List&lt;HandlerMethodReturnValueHandler&gt; list) {
+
+    }
+
+    @Override
+    public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; list) {
+
+    }
+
+    @Override
+    public void extendMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; list) {
+
+    }
+
+    @Override
+    public void configureHandlerExceptionResolvers(List&lt;HandlerExceptionResolver&gt; list) {
+
+    }
+
+    @Override
+    public void extendHandlerExceptionResolvers(List&lt;HandlerExceptionResolver&gt; list) {
+
+    }
+
+    @Override
+    public Validator getValidator() {
+        return null;
+    }
+
+    @Override
+    public MessageCodesResolver getMessageCodesResolver() {
+        return null;
+    }
+}</code></pre>
 
             <hr>
           </div>
@@ -192,13 +362,6 @@ width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacin
           <div>
             <p>
             
-            
-              <span>
-                <i class="iconfont icon-tag"></i>
-                
-                  <a class="hover-with-bg" href="/tags/love">love</a>
-                
-              </span>
             
             </p>
             
@@ -383,7 +546,7 @@ width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacin
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "糖糖小可爱&nbsp;",
+        "06使用token进行登录以及自定义注解的使用&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

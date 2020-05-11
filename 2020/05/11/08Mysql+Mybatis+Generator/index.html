@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>标签 ~ 关于我和她的事</title>
+  <title>08Mysql+Mybatis+Generator ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -44,7 +44,7 @@
     });
     daovoice('update');
   </script>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -123,6 +123,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 五月 11日 2020, 10:01 上午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    535 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -133,22 +168,158 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/love/" style="font-size: 15px; color: #bbe">love</a>
-</div>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h3 id="Mysql-Mybatis-Generator"><a href="#Mysql-Mybatis-Generator" class="headerlink" title="Mysql+Mybatis+Generator"></a>Mysql+Mybatis+Generator</h3><p><strong>Mysql</strong></p>
+<h4 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h4><blockquote>
+<p><strong>①依赖</strong></p>
+<pre><code class="xml">&lt;!-- mysql-connector-java 开始 --&gt;
+&lt;dependency&gt;
+   &lt;groupId&gt;mysql&lt;/groupId&gt;
+   &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;!-- mysql-connector-java 结束 --&gt;</code></pre>
+<p><strong>②配置</strong></p>
+<pre><code class="xml">spring.datasource.url=jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf8
+spring.datasource.password=root
+spring.datasource.username=root
+spring.datasource.driverClassName=com.mysql.jdbc.Driver</code></pre>
+</blockquote>
+<p><strong>Mybatis</strong></p>
+<blockquote>
+<p><strong>步骤</strong></p>
+<p><strong>①依赖</strong></p>
+<pre><code class="xml">&lt;!-- mybatis-spring-boot-starter开始 --&gt;
+&lt;dependency&gt;
+   &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+   &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+   &lt;version&gt;2.1.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- mybatis-spring-boot-starter结束 --&gt;</code></pre>
+</blockquote>
+<p><strong>Mybatis-generator</strong></p>
+<blockquote>
+<p><strong>步骤</strong></p>
+<p><strong>①插件依赖</strong></p>
+<pre><code class="xml">&lt;build&gt;
+   &lt;plugins&gt;
+       &lt;!--添加mybatisgenerator插件 目的是为了能够生成某张或者某几张表的增删改查基础mybatis文件--&gt;
+       &lt;plugin&gt;
+           &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
+           &lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;
+           &lt;version&gt;1.3.5&lt;/version&gt;
+           &lt;!--因为要生成文件，所以这个插件也需要去链接数据库，这里就是插件中需要依赖的标准写法--&gt;
+           &lt;dependencies&gt;
+               &lt;dependency&gt;
+                   &lt;groupId&gt;mysql&lt;/groupId&gt;
+                   &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+                   &lt;version&gt;5.1.47&lt;/version&gt;
+               &lt;/dependency&gt;
+           &lt;/dependencies&gt;
+           &lt;!--这里就是说如果重复生成某张表的mybatis文件就会覆盖--&gt;
+           &lt;configuration&gt;
+               &lt;overwrite&gt;true&lt;/overwrite&gt;
+           &lt;/configuration&gt;
+       &lt;/plugin&gt;
+       &lt;plugin&gt;
+           &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+           &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+       &lt;/plugin&gt;
+   &lt;/plugins&gt;
+   &lt;resources&gt;
+       &lt;resource&gt;
+           &lt;directory&gt;src/main/java&lt;/directory&gt;
+           &lt;includes&gt;
+               &lt;include&gt;**/*.xml&lt;/include&gt;
+           &lt;/includes&gt;
+       &lt;/resource&gt;
+       &lt;resource&gt;
+           &lt;directory&gt;src/main/resources&lt;/directory&gt;
+       &lt;/resource&gt;
+   &lt;/resources&gt;
+&lt;/build&gt;</code></pre>
+<p><strong>② generator配置文件</strong></p>
+<p>发qq了，这个文件放在resources包下，记得去修改你的要生成实体类（dto）的位置，mapper java的位置，mapper xml的位置 然后在table标签下 修改你要生成表的名字 最后点击idea右侧maven 点到plugin下的mybatis-generator 双击生成所有配置</p>
+</blockquote>
+<p>课外**</p>
+<p>mysql都是用一次连接一次断开一次后面要用的时候再去连接</p>
+<p>会造成性能效率问题，如何去解决呢？<strong>JNDI</strong></p>
+<p>分库</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div id="vcomments" style="width: 90%; margin: 0 auto;"></div>
+  <script defer src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+  <script>
+    var notify = 'false' === true;
+    var verify = 'false' === true;
+    var oldLoad = window.onload;
+    window.onload = function () {
+      new Valine({
+        el: '#vcomments',
+        notify: notify,
+        verify: verify,
+        app_id: "AwHMHsWD84HCneUlPvBR9ivb-gzGzoHsz",
+        app_key: "XEA3AdfEE5lN8EJi57fb60qq",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "retro",
+        meta: ['nick', 'mail', 'link'],
+        pageSize: "10",
+      });
+      oldLoad && oldLoad();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -227,6 +398,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -267,7 +443,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签&nbsp;",
+        "08Mysql+Mybatis+Generator&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

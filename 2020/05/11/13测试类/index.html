@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>标签 ~ 关于我和她的事</title>
+  <title>13测试类 ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -44,7 +44,7 @@
     });
     daovoice('update');
   </script>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -123,6 +123,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 五月 11日 2020, 10:02 上午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    265 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -133,22 +168,155 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/love/" style="font-size: 15px; color: #bbe">love</a>
-</div>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="Rediskey失效通知"><a href="#Rediskey失效通知" class="headerlink" title="Rediskey失效通知"></a>Rediskey失效通知</h2><p>配置</p>
+<pre><code class="java">@Bean
+public RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
+    RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+    container.setConnectionFactory(connectionFactory);
+    return container;
+}</code></pre>
+<pre><code class="java">@Component
+public class RedisKeyListener extends KeyExpirationEventMessageListener {
+
+    public RedisKeyListener(RedisMessageListenerContainer listenerContainer) {
+        super(listenerContainer);
+    }
+
+    @Override
+    public void onMessage(Message message, byte[] pattern) {
+        super.onMessage(message, pattern);
+    }
+}</code></pre>
+<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2><p><strong>推荐使用</strong> <a href="https://github.com/xuxueli/xxl-job/" target="_blank" rel="noopener">xxl-job</a></p>
+<pre><code class="java">@Configuration
+@EnableScheduling
+@Log4j
+public class ScheduledController {
+    @Scheduled(fixedRate = 1000)
+    @Scheduled(cron = &quot;* * * * * ?&quot;)
+    public void testScheduled() {
+        log.info(&quot;{--------------------}&quot;);
+    }
+}
+//注意在集群环境下的定时任务重复执行问题</code></pre>
+<h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2><p><strong>为什么要做测试？为什么要写测试类？</strong></p>
+<p><strong>以后出去工作后有一个叫做测试覆盖率的一个考核标准</strong></p>
+<p><strong>使用快捷键生成测试类</strong></p>
+<pre><code class="java">@RunWith(SpringRunner.class)
+@SpringBootTest
+public class UserUtilsTest {
+    @Autowired
+    private UserUtils userUtils;
+
+    @Test
+    public void setUser() throws Exception {
+        System.out.println(&quot;{??????????????????????}&quot;);
+    }
+
+  //前置运行
+    @After
+    public void after(){
+        System.out.println(&quot;{222222222222222222222}&quot;);
+
+    }
+    //后置运行
+    @Before
+    public void init() {
+        System.out.println(&quot;{1111111111111111111}&quot;);
+    }</code></pre>
+<pre><code class="java">//测试接口
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+public class ControllerDemoTest {
+    @Autowired
+    private MockMvc mockMvc;
+    @Test
+    public void getInt() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(&quot;controllerDemo/getInt&quot;);
+        requestBuilder.param(&quot;name&quot;,&quot;value&quot;);
+        mockMvc.perform(requestBuilder).andExpect(MockMvcResultMatchers.status().isOk()).
+                andExpect(MockMvcResultMatchers.content().string(&quot;success&quot;));
+    }
+
+}</code></pre>
+<h2 id="springboot异步方法-多线程"><a href="#springboot异步方法-多线程" class="headerlink" title="springboot异步方法 多线程"></a>springboot异步方法 多线程</h2><h2 id="多数据源读写分离"><a href="#多数据源读写分离" class="headerlink" title="多数据源读写分离"></a>多数据源读写分离</h2>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div id="vcomments" style="width: 90%; margin: 0 auto;"></div>
+  <script defer src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+  <script>
+    var notify = 'false' === true;
+    var verify = 'false' === true;
+    var oldLoad = window.onload;
+    window.onload = function () {
+      new Valine({
+        el: '#vcomments',
+        notify: notify,
+        verify: verify,
+        app_id: "AwHMHsWD84HCneUlPvBR9ivb-gzGzoHsz",
+        app_key: "XEA3AdfEE5lN8EJi57fb60qq",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "retro",
+        meta: ['nick', 'mail', 'link'],
+        pageSize: "10",
+      });
+      oldLoad && oldLoad();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -227,6 +395,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -267,7 +440,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签&nbsp;",
+        "13测试类&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

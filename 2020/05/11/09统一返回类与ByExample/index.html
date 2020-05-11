@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>糖糖小可爱 ~ 关于我和她的事</title>
+  <title>09统一返回类与ByExample ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -127,7 +127,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期一, 一月 13日 2020, 9:12 晚上
+                  星期一, 五月 11日 2020, 10:02 上午
                 </p>
               
 
@@ -136,7 +136,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    6 字
+                    922 字
                   </span>&nbsp;
                 
 
@@ -144,7 +144,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      4 分钟
                   </span>&nbsp;
                 
 
@@ -177,14 +177,187 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>###DW  等我!</p>
-<iframe src="//player.bilibili.com/player.html?aid=76259905&cid=130444896&page=1" 
-width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+            <h2 id="统一返回类与ByExample与单例模式"><a href="#统一返回类与ByExample与单例模式" class="headerlink" title="统一返回类与ByExample与单例模式"></a>统一返回类与ByExample与单例模式</h2><p><strong>使用example进行增删改查非常方便</strong></p>
+<pre><code class="java">goodsExample.createCriteria().andGIdEqualTo(1l).andGNameEqualTo(&quot;good1&quot;);</code></pre>
+<pre><code class="java">goodsExample.clear(); //清除条件方法</code></pre>
+<pre><code>//order by
+goodsExample.setOrderByClause(&quot;g_id DESC&quot;);
+//去重复
+goodsExample.setDistinct(true);</code></pre><p>###使用统一返回包装类PageUtils</p>
+<pre><code class="java">@Data
+public class PageUtils&lt;T&gt; {
+    //当前页
+    private int currentPage;
+    //一页多少条
+    private int pageSize;
+    //返回对象
+    private Collection&lt;T&gt; currentList;
+    //总条数
+    private long totalCount;
+    //总页数
+    private long totalPage = 0l;
+    //页码
+    private int pageNo;
 
+    public int getPageNo() {
+        return pageNo * pageSize - pageSize;
+    }
 
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
+    }
 
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
 
-<p>嘻嘻嘻</p>
+    public long getTotalPage() {
+        if (totalCount % pageSize == 0) {
+            totalPage = totalCount / pageSize;
+        } else {
+            totalPage = totalCount / pageSize + 1;
+        }
+        return totalPage;
+    }
+
+}</code></pre>
+<p><strong>使用example查询分页</strong></p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><blockquote>
+<p><strong>① 在对应的example实体类中如GoodsExample中添加两个字段 limt 与 offset 然后getset方法</strong></p>
+<p><strong>② 在对应的sql 如selectByExample 中最后添加</strong></p>
+<pre><code class="xml">&lt;if test=&quot;limit != null&quot;&gt;
+   &lt;if test=&quot;offset != null&quot;&gt;
+       limit ${limit},${offset}
+   &lt;/if&gt;
+   &lt;if test=&quot;offset == null&quot;&gt;
+       limit ${limit}
+   &lt;/if&gt;
+&lt;/if&gt;</code></pre>
+</blockquote>
+<p><strong>为什么需要统一包装类？</strong></p>
+<p>可以传递一个对象，方便前端接收</p>
+<p>那么这个对象里可以有 T data，String message用来描述状态，状态码int code </p>
+<p><strong>示栗：</strong></p>
+<pre><code class="java">@Data
+public class ReturnResult&lt;T&gt; implements Serializable{
+    private Integer code;
+    private String message;
+    private T data;
+}</code></pre>
+<p><strong>设计一个返回utils</strong></p>
+<pre><code class="java">public class ReturnResultUtils {
+    /**
+     * 不带data的成功
+     * @return
+     */
+    public static ReturnResult returnSuccess() {
+        ReturnResult returnResult = new ReturnResult();
+        returnResult.setCode(0);
+        returnResult.setMessage(&quot;success&quot;);
+        return returnResult;
+    }
+
+    /**
+     * 带data的成功
+     * @param data
+     * @return
+     */
+    public static ReturnResult returnSuccess(Object data) {
+        ReturnResult returnResult = new ReturnResult();
+        returnResult.setCode(0);
+        returnResult.setMessage(&quot;success&quot;);
+        returnResult.setData(data);
+        return returnResult;
+    }
+
+    /**
+     * 自定义code msg返回失败
+     * @param code
+     * @param msg
+     * @return
+     */
+    public static ReturnResult returnFail(int code,String msg){
+        ReturnResult returnResult = new ReturnResult();
+        returnResult.setCode(code);
+        returnResult.setMessage(msg);
+        return returnResult;
+    }
+
+}</code></pre>
+<p><strong>练习：注册</strong></p>
+<p>往数据库保存数据（密码（SHA加密保存），性别（1，2，3），昵称（8），手机号（短信验证，），创建时间（sql函数，Date,bigint(long) getTime() ）…）</p>
+<p>用户积分 ：微信登录 100 -&gt;请输入手机号-&gt;短信验证(证明是否是你手机号)-&gt;该手机号下面是否有用户-&gt;有这个用户-&gt;捆绑（中间表存 id wId pnum ctime 为了解耦合） </p>
+<p>​                   手机登录 100 -&gt;先去中间表看看这个用户有没有用微信号绑定的账号，有的话-&gt;合并账号</p>
+<p>173000000</p>
+<p>123456-&gt;dfdgsgsjajflasddfk@!!LKJ#KLjjjfaew substring (0,16)</p>
+<p>去验证密码时候：123456 -》加密A  从数据库根据账号取出加密密码B  判断a==b</p>
+<p><strong>为什么打log日志</strong></p>
+<p>人为什么要写日志？</p>
+<p>①方便以后查看（如何保持日志，把日志保持到哪里）</p>
+<p>②方便查找错误的地方</p>
+<p><strong>日志在什么地方显示？如何显示？</strong></p>
+<p>项目部署在哪里？服务器上的容器（Tomcat，jbooss）里，</p>
+<p>日志在容器里，那么如何显示？我要先打日志，然后看</p>
+<p>怎么看？这是以后要在linux上学习到的。</p>
+<p>###Logback是springboot默认日志框架</p>
+<p>log从大往小的一个级别</p>
+<blockquote>
+<p><strong>ERROR &gt; WARN &gt; INFO &gt; DEBUG</strong></p>
+</blockquote>
+<p><strong>自定义异常</strong></p>
+<p>为毛要定义异常？</p>
+<p>因为我想自定义异常的code与msg</p>
+<p><strong>使用枚举做单例模式</strong></p>
+<blockquote>
+<p><strong><em>一个类中有且只有一个实例并向整个项目提供这个实例</em></strong></p>
+</blockquote>
+<p><strong>饿汉模式</strong></p>
+<pre><code class="java">public class Singletion {
+
+    private static Singletion singletion = new Singletion();
+
+    private Singletion() {
+    }
+
+    public static Singletion getInstance() {
+        return singletion;
+    }
+}</code></pre>
+<p><strong>懒汉模式</strong></p>
+<pre><code class="java">/**
+ * 懒汉模式
+ */
+public class Singletonb {
+    //可见性
+    private volatile static Singletonb singletionb;
+
+    //私有化构造方法只有Singletonb类内部才可以调用构造器
+    private Singletonb() {
+    }
+
+    public static Singletonb getInstance() {
+        if (null == singletionb) {
+            //互斥锁
+            synchronized (Singletonb.class) {
+                if (null == singletionb) {
+                    singletionb = new Singletonb();
+                }
+            }
+        }
+        return singletionb;
+    }
+}</code></pre>
+<p><strong>使用枚举创建单例模式</strong></p>
+<pre><code class="java">
+public enum EnumSingleton {
+    INSTANCE;
+
+    public EnumSingleton getInstance() {
+        return INSTANCE;
+    }
+}</code></pre>
+<p><strong>为什么使用枚举类创建单例模式？</strong></p>
+<p>枚举类实际上是个语法糖，有jvm保证枚举类的唯一性</p>
 
             <hr>
           </div>
@@ -192,13 +365,6 @@ width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacin
           <div>
             <p>
             
-            
-              <span>
-                <i class="iconfont icon-tag"></i>
-                
-                  <a class="hover-with-bg" href="/tags/love">love</a>
-                
-              </span>
             
             </p>
             
@@ -383,7 +549,7 @@ width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacin
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "糖糖小可爱&nbsp;",
+        "09统一返回类与ByExample&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,

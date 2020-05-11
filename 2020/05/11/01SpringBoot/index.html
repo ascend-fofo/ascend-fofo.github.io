@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="ascendfofo">
   <meta name="keywords" content="">
-  <title>糖糖小可爱 ~ 关于我和她的事</title>
+  <title>01SpringBoot ~ 关于我和她的事</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -127,7 +127,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期一, 一月 13日 2020, 9:12 晚上
+                  星期一, 五月 11日 2020, 10:01 上午
                 </p>
               
 
@@ -136,7 +136,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    6 字
+                    1.1k 字
                   </span>&nbsp;
                 
 
@@ -144,7 +144,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      4 分钟
                   </span>&nbsp;
                 
 
@@ -177,28 +177,128 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>###DW  等我!</p>
-<iframe src="//player.bilibili.com/player.html?aid=76259905&cid=130444896&page=1" 
-width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+            <h1 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h1><blockquote>
+<p><strong><em>当我跑步的时候我在说什么</em></strong></p>
+<p><strong><em>当我在说Springboot的时候我在说什么？</em></strong></p>
+</blockquote>
+<p>Spring Mybatis SpringMVC(垂直框架)</p>
+<p>###重要思想：</p>
+<blockquote>
+<p><strong><em>控制反转</em></strong></p>
+<p>1.这个名词是不是翻译过来的？</p>
+<p>2.什么叫正转？</p>
+<p>正：</p>
+<p>new -&gt;实例化-&gt;name.function()</p>
+<p>3.那么什么叫反转？</p>
+<p>反：</p>
+<p>我控制不了或者不需要控制实例</p>
+<p><strong><em>依赖注入</em></strong></p>
+</blockquote>
+<h3 id="之前框架的问题"><a href="#之前框架的问题" class="headerlink" title="之前框架的问题"></a>之前框架的问题</h3><blockquote>
+<p>1.烦</p>
+<p>2.tomcat</p>
+<p>3.搭建框架步骤繁琐</p>
+<p>4.前端文件还写在后端框架中</p>
+</blockquote>
+<h3 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h3><p><strong><em>使用Springboot框架</em></strong>（微服务框架）</p>
+<p>步骤：</p>
+<blockquote>
+<p>有两种方式：</p>
+<p>1在网址：<a href="https://start.spring.io" target="_blank" rel="noopener">https://start.spring.io</a> 下创建，根据你需要的进行选择然后创建</p>
+<p>2推荐方式使用idea：</p>
+<p><strong><em>注意修改版本号</em></strong></p>
+<pre><code class="java">&lt;version&gt;1.5.9.RELEASE&lt;/version&gt;</code></pre>
+<p>设置idea默认maven配置</p>
+<p>添加maven3.39</p>
+<p>打开conf文件夹中的setting文件修改其中</p>
+<pre><code class="xml">&lt;localRepository&gt;这里请复制你需要保存依赖jar的本机文件夹地址&lt;/localRepository&gt;</code></pre>
+<p>修改test问题，因为现在的版本已经到junit5了所以需要添加新依赖进来进入com.example.demo.DemoApplicationTests文件下使用快捷键添加依赖，等待载入依赖</p>
+</blockquote>
+<h3 id="SpringBoot优势"><a href="#SpringBoot优势" class="headerlink" title="SpringBoot优势"></a>SpringBoot优势</h3><blockquote>
+<p>1.0配置</p>
+<p>2.自带容器（tomcat）</p>
+<blockquote>
+<p>默认端口号：8080</p>
+</blockquote>
+</blockquote>
+<pre><code>pom.xml详解
+我发现springboot的pom中许多依赖都没有版本号
+然后我👇这个依赖父依赖的父依赖中发现了版本号
+spring-boot-starter-parent
+称之为：版本仲裁器
 
+我发现有很多依赖上有starter字样
+当我点击进去的时候我发现了很多的依赖
+一开始从spring-boot-starter-web点击进去的
+我发现这个依赖里面有很多的依赖都是和web有关系，比如说里面有tomcat容器，有springmvc...
+所以starter定义为：场景启动器，集成了该场景下所需要用到的所有依赖
+最下面的
+spring-boot-maven-plugin
+负责：打包成可执行的jar
 
-
-
-<p>嘻嘻嘻</p>
-
+点开mavn 打包为jar包 到对应的目录下 cd /xxx/xxx  然后输入 java -jar xxxx.jar 命令启动
+</code></pre><h3 id="详解DemoApplication-项目名-Application"><a href="#详解DemoApplication-项目名-Application" class="headerlink" title="详解DemoApplication(项目名+Application)"></a>详解DemoApplication(项目名+Application)</h3><pre><code class="java">@SpringBootApplication
+只要是被这个注解修饰的类，就表明这是一个springboot项目的主配置类
+@SpringBootConfiguration 里面有 @Component 可以注入到spring容器中
+  定义：表明这是一个配置类（springboot专用）
+@EnableAutoConfiguration
+  里面有
+  @AutoConfigurationPackage
+  @Import（EnableAutoConfigurationImportSelector） 以全类名的方式导入所有组件
+  这是spring底层注解，注入了EnableAutoConfigurationImportSelector（自动配置注入选择器） 这个由继承了            AutoConfigurationImportSelector这里面有selectImports方法选择谁来注入看这个方法里的
+  List configurations = this.getCandidateConfigurations(annotationMetadata, attributes);
+  然后看getCandidateConfigurations这里面是怎么处理的，这里面调用
+    List configurations = SpringFactoriesLoader.loadFactoryNames(this.getSpringFactoriesLoaderFactoryClass(), this.getBeanClassLoader());
+所以我们看下loadFactoryNames这方法里面发现是从 META-INF/spring.factories 下面找的
+  里面还有
+  @AutoConfigurationPackage 点进去看
+  发现@Import({Registrar.class})
+  点进Registrar类中看
+  选择new AutoConfigurationPackages.PackageImport(metadata)).getPackageName() 右击计算是    com.example.demo这个结果 可以得知这里把被@SpringBootApplication所修饰的类所在的包以及其子包全部注入到spring中
+@ComponentScan
+  扫描你所想注入的包</code></pre>
+<pre><code>@SpringBootApplication
+被其修饰的类叫springboot的核心配置类，这里面有三个核心注解</code></pre><table>
+<thead>
+<tr>
+<th>@SpringBootConfiguration</th>
+<th>@EnableAutoConfiguration</th>
+<th>@ComponentScan</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><em>核心注解是@Configuration（可以声明一个普通类为配置类）这里面又有@Component，被这个类注解所修饰的类表示springboot专用配置类</em></strong></td>
+<td><strong><em>这里有两个注解分别为，@AutoConfigurationPackage 这个注解会把被其修饰的类所在的包以及其子包注入到spring容器中@Import({EnableAutoConfigurationImportSelector.class})这个注解会到spring-boot-autoconfigure/1.5.9.RELEASE/spring-boot-autoconfigure-1.5.9.RELEASE.jar!/META-INF/spring.factories下以全类名的方式导入所有配置</em></strong></td>
+<td><strong><em>扫描并注入你所想注入的包</em></strong></td>
+</tr>
+</tbody></table>
+<h3 id="为什么要讲这么深"><a href="#为什么要讲这么深" class="headerlink" title="为什么要讲这么深"></a>为什么要讲这么深</h3><blockquote>
+<p><strong><em>1.让大家适应我的教学方法</em></strong></p>
+<p><strong><em>2.核心竞争力</em></strong></p>
+<p>体现在，你知道这是干什么的，你也能知道他为什么能这么干</p>
+</blockquote>
+<h3 id="明天默写上述所有"><a href="#明天默写上述所有" class="headerlink" title="明天默写上述所有"></a>明天默写上述所有</h3><blockquote>
+<p>1.不能抄</p>
+<p>2.怎么默写</p>
+<blockquote>
+<p>1 springboot有哪些优点</p>
+<p>1 ：涉及到风口浪尖啊是垃圾分类家电节</p>
+</blockquote>
+<p>3.所有我要求默写的东西 后面都有很大概率会被面试到</p>
+</blockquote>
+<p>###application.properties</p>
+<blockquote>
+<p><strong><em>springboot配置文件</em></strong></p>
+<p>有两种格式：</p>
+<p>application.properties与application.yml两种，当两种都存在的时候以application.properties为主</p>
+</blockquote>
+<h4 id="课外"><a href="#课外" class="headerlink" title="课外"></a>课外</h4><pre><code>Assert.notEmpty //断言</code></pre>
             <hr>
           </div>
           <br>
           <div>
             <p>
             
-            
-              <span>
-                <i class="iconfont icon-tag"></i>
-                
-                  <a class="hover-with-bg" href="/tags/love">love</a>
-                
-              </span>
             
             </p>
             
@@ -383,7 +483,7 @@ width="100%" height="436" scrolling="no" border="0" frameborder="no" framespacin
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "糖糖小可爱&nbsp;",
+        "01SpringBoot&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 20,
